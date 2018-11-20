@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+	<param name="led_service_name" value="set_color_leds"/>
+	<param name="path_device" value="/dev/ttyUSB_LEDS"/>
+	<node name="robotnik_leds_service" pkg="robotnik_leds" type="robotnik_leds_service" respawn="false" output="screen"/> 
+</launch>

@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="robot_id" default="robot_1"/>
+    <arg name="prefix" default="$(arg robot_id)_"/>
+    <arg name="sim" default="$(optenv TURTLEBOT_SIMULATION false)"/>
+    <arg name="mapping" default="false"/>
+
+    <group ns="$(arg robot_id)">
+        <!-- Turtlebot minimal -->
+        <include unless="$(arg sim)" file="$(find turtlebot_bringup)/launch/minimal.launch">
+            <arg name="prefix_frame" value="$(arg prefix)"/>
+        </include>
+
+        <!-- Elevator action -->
+        <include file="$(find turtlebot_elevator)/launch/elevator_action.launch"/>
+
+        <!-- Rplidar laser node -->
+        <include unless="$(arg sim)" file="$(find turtlebot_bringup)/launch/includes/2dsensor/rplidar.launch">
+            <arg name="range_min" value="0.22" />
+            <arg name="range_max" value="18.0" />
+            <arg name="frame_id" value="$(arg prefix)laser_link"/>
+        </include>
+
+        <!-- Map Server, AMCL and Move Base  -->
+        <include unless="$(arg mapping)" file="$(find cpswarm_bringup)/launch/amcl_movebase.launch">
+            <arg name="robot_id" value="$(arg robot_id)"/>
+        </include>
+
+        <!-- Leds management -->
+        <include unless="$(arg sim)" file="$(find cpswarm_bringup)/launch/robotnik_leds.launch"/>
+
+        <!-- Pad teleoperation -->
+        <include file="$(find turtlebot_teleop)/launch/ps4_teleop.launch"/>
+
+        <!-- Robotnik local services (better if it is launched independently)-->
+        <!--include file="$(find robotnik_local_services)/launch/demo_one_robot.launch"/-->
+
+        <include file="$(find kobuki_auto_docking)/launch/minimal.launch"/>
+
+    </group>
+
+    <!-- Turtlebot simulation-->
+    <include if="$(arg sim)" file="$(find cpswarm_bringup)/launch/logistics_demo.launch">
+
+        <arg name="launch_robot_a" default="$(arg launch_robot_a)"/>
+        <arg name="map_file_a" value="$(arg map_file_a)"/>
+        <arg name="gmapping_robot_a" value="$(arg gmapping_robot_a)"/>
+        <arg name="move_base_robot_a" value="$(arg move_base_robot_a)"/>
+        <arg name="amcl_and_mapserver_a" value="$(arg amcl_and_mapserver_a)"/>
+
+        <arg name="launch_robot_b" default="$(arg launch_robot_b)"/>
+        <arg name="gmapping_robot_b" value="$(arg gmapping_robot_b)"/>
+        <arg name="move_base_robot_b" value="$(arg move_base_robot_b)"/>
+        <arg name="amcl_and_mapserver_b" value="$(arg amcl_and_mapserver_b)"/>
+        <arg name="map_file_b" value="$(arg map_file_b)"/>
+
+        <arg name="launch_robot_c" default="$(arg launch_robot_c)"/>
+        <arg name="gmapping_robot_c" value="$(arg gmapping_robot_c)"/>
+        <arg name="move_base_robot_c" value="$(arg move_base_robot_c)"/>
+        <arg name="amcl_and_mapserver_c" value="$(arg amcl_and_mapserver_c)"/>
+        <arg name="map_file_c" value="$(arg map_file_c)"/>
+
+        <!-- fake elevator for gazebo-->
+        <!--node pkg="robotnik_base_hw_sim" type="elevator_fake_pickup_gazebo.py" name="elevator_fake_pickup_gazebo">
+		<rosparam command="load" file="$(arg config_yaml)" />
+	</node-->
+
+    </include>
+
+    <!-- mapping node (this is commented because is better if it is launched independently)-->
+    <!--include if="$(arg mapping)" file="$(find cpswarm_bringup)/launch/mapping.launch"/-->
+
+
+</launch>
