@@ -1,5 +1,7 @@
 <?xml version="1.0"?>
 <launch>
+    <arg name="id" default="1"/>
+    <arg name="log_output" default="screen"/>
     <arg name="robot_id" default="robot_1"/>
     <arg name="prefix" default="$(arg robot_id)_"/>
     <arg name="sim" default="$(optenv TURTLEBOT_SIMULATION false)"/>
@@ -12,7 +14,7 @@
         </include>
 
         <!-- Elevator action -->
-        <include file="$(find turtlebot_elevator)/launch/elevator_action.launch"/>
+        <!--include file="$(find turtlebot_elevator)/launch/elevator_action.launch"/-->
 
         <!-- Rplidar laser node -->
         <include unless="$(arg sim)" file="$(find turtlebot_bringup)/launch/includes/2dsensor/rplidar.launch">
@@ -35,7 +37,25 @@
         <!-- Robotnik local services (better if it is launched independently)-->
         <!--include file="$(find robotnik_local_services)/launch/demo_one_robot.launch"/-->
 
+	<!--docking station-->
         <include file="$(find kobuki_auto_docking)/launch/minimal.launch"/>
+
+	<!-- Abstraction Library -->
+        <include file="$(find cpswarm_turtlebot)/launch/turtlebot_abstraction_library.launch">
+            <arg name="id" value="$(arg id)" />
+            <arg name="log_output" value="$(arg log_output)" />
+        </include>
+
+        <!-- SwarmROS -->
+        <node pkg="swarmros" type="bridge" name="swarmio_$(arg id)" args="-C$(find cpswarm_turtlebot)/launch/param/turtlebot_swarmros.cfg" output="$(arg log_output)" />
+
+        <!-- State Machine -->
+        <node pkg="cpswarm_turtlebot" type="turtlebot_behavior_test.py" name="machine_state_node_$(arg id)"/>
+
+
+	<!--tf static to map to share the same frame-->
+        <node pkg="tf" type="static_transform_publisher" name="tf_robot_map_to_map" args="0 0 0 0 0 0 /map /$(arg prefix)map 100"/>
+
 
     </group>
 
