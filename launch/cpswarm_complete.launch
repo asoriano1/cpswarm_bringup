@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <launch>
-    <arg name="id" default="1"/>
+    <arg name="id" default="2"/>
     <arg name="log_output" default="screen"/>
-    <arg name="robot_id" default="robot_1"/>
+    <arg name="robot_id" default="robot_2"/>
     <arg name="prefix" default="$(arg robot_id)_"/>
     <arg name="sim" default="$(optenv TURTLEBOT_SIMULATION false)"/>
     <arg name="mapping" default="false"/>
@@ -58,67 +58,6 @@
 
 
     </group>
-
-    <!-- Turtlebot simulation-->
-    
-<param name="use_sim_time" value="true"/>
-    <!--which robots -->
-    <arg name="launch_robot_a" default="true"/>
-    <arg name="launch_robot_b" default="true"/>
-    <arg name="launch_robot_c" default="false"/>
-
-    <!--args for robot a-->
-    <arg name="map_file_a" default="digisky_hangar"/>
-    <arg name="gmapping_robot_a" default="false"/>
-    <arg name="move_base_robot_a" default="true"/>
-    <arg name="amcl_and_mapserver_a" default="true"/>
-    <arg name="x_init_pose_robot_a" default="-5.0"/>
-    <arg name="y_init_pose_robot_a" default="-1.0"/>
-    <arg name="a_init_pose_robot_a" default="0.0"/>
-    <!--args for robot b-->
-    <arg name="map_file_b" default="digisky_hangar"/>
-    <arg name="gmapping_robot_b" default="false"/>
-    <arg name="move_base_robot_b" default="true"/>
-    <arg name="amcl_and_mapserver_b" default="true"/>
-    <arg name="x_init_pose_robot_b" default="-5.0"/>
-    <arg name="y_init_pose_robot_b" default="0.0"/>
-    <arg name="a_init_pose_robot_b" default="0.0"/>
-    <!--args for robot c-->
-    <arg name="map_file_c" default="digisky_hangar"/>
-    <arg name="gmapping_robot_c" default="false"/>
-    <arg name="move_base_robot_c" default="true"/>
-    <arg name="amcl_and_mapserver_c" default="true"/>
-    <arg name="x_init_pose_robot_c" default="-5.0"/>
-    <arg name="y_init_pose_robot_c" default="1.0"/>
-    <arg name="a_init_pose_robot_c" default="0.0"/>
-
-
-    <include if="$(arg sim)" file="$(find cpswarm_bringup)/launch/logistics_demo.launch">
-
-        <arg name="launch_robot_a" default="$(arg launch_robot_a)"/>
-        <arg name="map_file_a" value="$(arg map_file_a)"/>
-        <arg name="gmapping_robot_a" value="$(arg gmapping_robot_a)"/>
-        <arg name="move_base_robot_a" value="$(arg move_base_robot_a)"/>
-        <arg name="amcl_and_mapserver_a" value="$(arg amcl_and_mapserver_a)"/>
-
-        <arg name="launch_robot_b" default="$(arg launch_robot_b)"/>
-        <arg name="gmapping_robot_b" value="$(arg gmapping_robot_b)"/>
-        <arg name="move_base_robot_b" value="$(arg move_base_robot_b)"/>
-        <arg name="amcl_and_mapserver_b" value="$(arg amcl_and_mapserver_b)"/>
-        <arg name="map_file_b" value="$(arg map_file_b)"/>
-
-        <arg name="launch_robot_c" default="$(arg launch_robot_c)"/>
-        <arg name="gmapping_robot_c" value="$(arg gmapping_robot_c)"/>
-        <arg name="move_base_robot_c" value="$(arg move_base_robot_c)"/>
-        <arg name="amcl_and_mapserver_c" value="$(arg amcl_and_mapserver_c)"/>
-        <arg name="map_file_c" value="$(arg map_file_c)"/>
-
-        <!-- fake elevator for gazebo-->
-        <!--node pkg="robotnik_base_hw_sim" type="elevator_fake_pickup_gazebo.py" name="elevator_fake_pickup_gazebo">
-		<rosparam command="load" file="$(arg config_yaml)" />
-	</node-->
-
-    </include>
 
     <!-- mapping node (this is commented because is better if it is launched independently)-->
     <!--include if="$(arg mapping)" file="$(find cpswarm_bringup)/launch/mapping.launch"/-->
