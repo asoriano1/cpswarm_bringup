@@ -60,6 +60,39 @@
     </group>
 
     <!-- Turtlebot simulation-->
+    
+<param name="use_sim_time" value="true"/>
+    <!--which robots -->
+    <arg name="launch_robot_a" default="true"/>
+    <arg name="launch_robot_b" default="true"/>
+    <arg name="launch_robot_c" default="false"/>
+
+    <!--args for robot a-->
+    <arg name="map_file_a" default="digisky_hangar"/>
+    <arg name="gmapping_robot_a" default="false"/>
+    <arg name="move_base_robot_a" default="true"/>
+    <arg name="amcl_and_mapserver_a" default="true"/>
+    <arg name="x_init_pose_robot_a" default="-5.0"/>
+    <arg name="y_init_pose_robot_a" default="-1.0"/>
+    <arg name="a_init_pose_robot_a" default="0.0"/>
+    <!--args for robot b-->
+    <arg name="map_file_b" default="digisky_hangar"/>
+    <arg name="gmapping_robot_b" default="false"/>
+    <arg name="move_base_robot_b" default="true"/>
+    <arg name="amcl_and_mapserver_b" default="true"/>
+    <arg name="x_init_pose_robot_b" default="-5.0"/>
+    <arg name="y_init_pose_robot_b" default="0.0"/>
+    <arg name="a_init_pose_robot_b" default="0.0"/>
+    <!--args for robot c-->
+    <arg name="map_file_c" default="digisky_hangar"/>
+    <arg name="gmapping_robot_c" default="false"/>
+    <arg name="move_base_robot_c" default="true"/>
+    <arg name="amcl_and_mapserver_c" default="true"/>
+    <arg name="x_init_pose_robot_c" default="-5.0"/>
+    <arg name="y_init_pose_robot_c" default="1.0"/>
+    <arg name="a_init_pose_robot_c" default="0.0"/>
+
+
     <include if="$(arg sim)" file="$(find cpswarm_bringup)/launch/logistics_demo.launch">
 
         <arg name="launch_robot_a" default="$(arg launch_robot_a)"/>
